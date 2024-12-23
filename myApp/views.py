@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import RentPaymentSerializer, MaintenanceSerializer
-from .models import RentPayment, Maintenance
+from .serializers import RentPaymentSerializer, MaintenanceSerializer, UserSerializer ,TenantSerializer ,PropertySerializer
+from .models import RentPayment, Maintenance, User , Property ,Tenant
 
 # Generic API view to handle CRUD operations
 @permission_classes([IsAuthenticated])  # Ensure the user is authenticated for all API actions
@@ -61,3 +61,5 @@ def generic_api(model_class, serializer_class):
 manage_rentpayment = generic_api(RentPayment, RentPaymentSerializer)
 manage_maintenance = generic_api(Maintenance, MaintenanceSerializer)
 manage_user = generic_api(User, UserSerializer)
+manage_tenant = generic_api(User, TenantSerializer)
+manage_property = generic_api(User, PropertySerializer)

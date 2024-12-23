@@ -40,7 +40,7 @@ Including another URLconf
 # ]
 from django.contrib import admin
 from django.urls import path
-from myApp.views import manage_rentpayment, manage_maintenance
+from myApp.views import manage_rentpayment, manage_maintenance,manage_user ,manage_tenant, manage_property
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,5 +50,9 @@ urlpatterns = [
     path('maintenance/<int:id>/', manage_maintenance),  # Handles specific Maintenance operations by ID
     path('user/', manage_user),
     path('user/<int:id>/', manage_user),
+    path('tenant/', manage_tenant),
+    path('tenant/<int:id>/', manage_tenant),
+    path('property/', manage_user),
+    path('property/<int:id>/', manage_property),
 
 ]
