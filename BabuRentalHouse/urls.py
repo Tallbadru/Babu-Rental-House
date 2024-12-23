@@ -14,9 +14,41 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# from django.contrib import admin
+# from django.urls import path  # Remove the duplicate import
+# from BabuRentalHouse import views
+# from .views import RentPaymentMaintenanceView
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+    
+#     path('maintenance/', RentPaymentMaintenanceView.as_view(), {'model_name': 'maintenance'}, name='maintenance_list'),
+    
+# ]
+
+# from django.contrib import admin
+# from django.urls import path
+# from myApp.views import RentPaymentMaintenanceView
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import status
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path(
+#         'maintenance/',  RentPaymentMaintenanceView.as_view(),   {'model_name': 'maintenance'}, name='maintenance_list'
+#     ),
+# ]
 from django.contrib import admin
 from django.urls import path
+from myApp.views import manage_rentpayment, manage_maintenance
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('rentpayment/', manage_rentpayment),  # Handles RentPayment operations
+    path('rentpayment/<int:id>/', manage_rentpayment),  # Handles specific RentPayment operations by ID
+    path('maintenance/', manage_maintenance),  # Handles Maintenance operations
+    path('maintenance/<int:id>/', manage_maintenance),  # Handles specific Maintenance operations by ID
+    path('user/', manage_user),
+    path('user/<int:id>/', manage_user),
+
 ]
