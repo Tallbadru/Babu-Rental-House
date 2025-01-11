@@ -15,13 +15,20 @@ class User(models.Model):
     def __str__(self):
         return self.username 
 
-class Property(models.Model): 
-    address = models.CharField(max_length=255)
-    type = models.CharField(max_length=100)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties')
-
+class Property(models.Model):
+    ROOM_STATUS_CHOICES = [
+        ('Empty', 'Empty'),
+        ('Booked', 'Booked'),
+    ]
+    
+    room_no = models.CharField(max_length=50,default="Room 1")  # Room number
+    status = models.CharField(max_length=10, choices=ROOM_STATUS_CHOICES, default='Empty')  # Status of the room
+    type = models.CharField(max_length=100)  # Type of property
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=100000)  # Price of the property with default value 100000
+   
+    
     def __str__(self):
-        return f"{self.address} ({self.type})"
+        return f"Room {self.room_no} ({self.type}) - {self.status}"
 
 class Tenant(models.Model):
     name = models.CharField(max_length=255)
@@ -30,6 +37,13 @@ class Tenant(models.Model):
 
     def __str__(self):
         return self.name
+class Booking(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="bookings")
+    status = models.CharField(max_length=20, default="Pending")
+    booking_date = models.DateField()
+
+    def __str__(self):
+        return f"Booking for {self.property.room_no} - {self.status}"
 
 # class PropertyTenant(models.Model):
 #     property = models.ForeignKey(Property, on_delete=models.CASCADE)
@@ -68,4 +82,4 @@ class Maintenance(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
 
     def __str__(self):
-        return f"Maintenance {self.id} for {self.property.address}"
+        return f"Maintenance {self.id} "

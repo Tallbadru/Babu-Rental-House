@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Property, PropertyTenant, Tenant, RentPayment, Maintenance
+from .models import *;
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -39,3 +39,8 @@ class MaintenanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maintenance
         fields = '__all__'  # Include all fields (MaintID, TenantID, PropertyID, Description, Status)
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = '__all__'  
