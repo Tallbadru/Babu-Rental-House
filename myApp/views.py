@@ -1,12 +1,14 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
-from .serializers import *;
-from .models import *;
+
+from .models import *
+from .serializers import *
+
 
 # Generic API view to handle CRUD operations
-@permission_classes([IsAuthenticated])  # Ensure the user is authenticated for all API actions
 def generic_api(model_class, serializer_class):
     @api_view(['GET', 'POST', 'PUT', 'DELETE'])
     def api(request, id=None):
@@ -57,10 +59,30 @@ def generic_api(model_class, serializer_class):
 
     return api
 
+
 # API views for RentPayment and Maintenance
 manage_rentpayment = generic_api(RentPayment, RentPaymentSerializer)
 manage_maintenance = generic_api(Maintenance, MaintenanceSerializer)
 manage_user = generic_api(User, UserSerializer)
-manage_tenant = generic_api(User, TenantSerializer)
+manage_tenant = generic_api(Tenant, TenantSerializer)
 manage_property = generic_api(Property, PropertySerializer)
 manage_booking = generic_api(Booking, BookingSerializer)
+
+
+# Login View for Authentication
+class LoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # Check if the user exists
+        try:
+            user = User.objects.get(username=username, password=password)
+            return Response({
+                "message": "Login successful",
+                "role": user.role
+            }, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({
+                "message": "Invalid credentials"
+            }, status=status.HTTP_400_BAD_REQUEST)

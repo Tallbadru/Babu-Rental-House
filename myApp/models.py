@@ -37,13 +37,23 @@ class Tenant(models.Model):
 
     def __str__(self):
         return self.name
+from django.db import models
+
 class Booking(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="bookings")
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name="bookings",default=1)  # Link to Tenant model
     status = models.CharField(max_length=20, default="Pending")
-    booking_date = models.DateField()
+    start_date = models.DateField(default="2025-01-01")  # When the booking starts
+    end_date = models.DateField(default="2025-12-1")  # When the booking ends
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=1000.00)  # Price of the booking
 
     def __str__(self):
-        return f"Booking for {self.property.room_no} - {self.status}"
+        return (
+            f"Booking for Room {self.property.room_no} by {self.tenant.name} - "
+            f"{self.status}, Price: {self.price}, "
+            f"From {self.start_date} to {self.end_date}"
+        )
+
 
 # class PropertyTenant(models.Model):
 #     property = models.ForeignKey(Property, on_delete=models.CASCADE)
