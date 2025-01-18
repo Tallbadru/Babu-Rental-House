@@ -45,5 +45,5 @@ urlpatterns = [
     path('property/<int:id>/', manage_property),
     path('booking/', manage_booking),
     path('booking/<int:id>/', manage_booking),
-     path('login/', LoginView.as_view(), name='login'),
+    path('login/', LoginView.as_view(), name='login'),
 ]

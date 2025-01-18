@@ -16,12 +16,6 @@ class PropertySerializer(serializers.ModelSerializer):
         model = Property
         fields = '__all__'  # Include all fields (PropertyID, Address, Type, OwnerID)
 
-# Serializer for PropertyTenant model
-class PropertyTenantSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PropertyTenant
-        fields = '__all__'  # Include all fields (PropertyID, TenantID)
-
 # Serializer for Tenant model
 class TenantSerializer(serializers.ModelSerializer):
     class Meta:

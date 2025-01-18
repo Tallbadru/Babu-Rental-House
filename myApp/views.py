@@ -75,14 +75,17 @@ class LoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        # Check if the user exists
+        # Check if the tenants exists
         try:
-            user = User.objects.get(username=username, password=password)
+            tenant = Tenant.objects.get(username=username, password=password)
             return Response({
                 "message": "Login successful",
                 
             }, status=status.HTTP_200_OK)
-        except User.DoesNotExist:
+        except Tenant.DoesNotExist:
             return Response({
                 "message": "Invalid credentials"
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+
