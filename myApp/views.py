@@ -80,7 +80,7 @@ class LoginView(APIView):
             user = User.objects.get(username=username, password=password)
             return Response({
                 "message": "Login successful",
-                "role": user.role
+                
             }, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({

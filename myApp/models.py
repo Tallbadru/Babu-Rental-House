@@ -4,13 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 
 class User(models.Model):
-    ROLE_CHOICES = [
-        ('Owner', 'Owner'),
-        ('Tenant', 'Tenant'),
-    ]
+    
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    role = models.CharField(max_length=50, choices=ROLE_CHOICES)
+    
 
     def __str__(self):
         return self.username 
@@ -33,19 +30,26 @@ class Property(models.Model):
 class Tenant(models.Model):
     name = models.CharField(max_length=255)
     contact_info = models.CharField(max_length=255)
-    lease_details = models.TextField(blank=True, null=True)
+    email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
+
+
 
     def __str__(self):
         return self.name
-from django.db import models
+
 
 class Booking(models.Model):
+    BOOKING_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Success', 'Success'),
+    ]
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="bookings")
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name="bookings",default=1)  # Link to Tenant model
     status = models.CharField(max_length=20, default="Pending")
     start_date = models.DateField(default="2025-01-01")  # When the booking starts
     end_date = models.DateField(default="2025-12-1")  # When the booking ends
     price = models.DecimalField(max_digits=10, decimal_places=2, default=1000.00)  # Price of the booking
+    status = models.CharField(max_length=10, choices=BOOKING_CHOICES, default='Pending')  # Status of the room
 
     def __str__(self):
         return (
@@ -73,6 +77,7 @@ class RentPayment(models.Model):
         ('Overdue', 'Overdue'),
     ]
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name='payments')
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='payments', null=True, blank=True)  # Link to Booking model
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
