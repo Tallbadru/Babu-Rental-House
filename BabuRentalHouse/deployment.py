@@ -26,13 +26,8 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-
-CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:3000",  
-    # "http://127.0.0.1:3000",
-    "https://ambitious-pebble-06c2dd003.4.azurestaticapps.net",
-]
-
+CORS_ALLOW_ALL_ORIGINS = True
+   
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
