@@ -8,7 +8,6 @@ from .models import *
 from .serializers import *
 
 
-# Generic API view to handle CRUD operations
 def generic_api(model_class, serializer_class):
     @api_view(['GET', 'POST', 'PUT', 'DELETE'])
     def api(request, id=None):

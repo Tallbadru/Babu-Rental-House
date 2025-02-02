@@ -15,6 +15,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 # # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 
+import os
+from decouple import config
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,14 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s8xl80b(sm1!=b%fs8mpgbq8)21_4k#vo)(j5s!5nbnklp0*f2'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
+    
     "http://localhost:3000",  # React frontend URL
 ]
 
@@ -151,6 +154,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static files')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
